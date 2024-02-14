@@ -1,13 +1,12 @@
+version: "3"
 services:
-  rabbitmq:
-    image: rabbitmq:3
-    environment:
-      - RABBITMQ_DEFAULT_USER=$SERVICE_USER_RABBITMQ # default "guest"
-      - RABBITMQ_DEFAULT_PASS=$SERVICE_PASSWORD_RABBITMQ # default "guest"
-    healthcheck:
-      test: rabbitmq-diagnostics -q ping
-      interval: 30s
-      timeout: 30s
-      retries: 3
+ rabbitmq:
+    image: "rabbitmq:3-management"
     ports:
       - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - 'rabbitmq_data:/data'
+
+volumes:
+  rabbitmq_data:
