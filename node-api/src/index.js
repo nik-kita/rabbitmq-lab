@@ -1,13 +1,15 @@
-async function main() {
-  const [s, r] = await Promise.all([
-    require("./sender"),
-    require("./receiver"),
-  ]);
+const { serve } = require("@hono/node-server");
+const { app } = require("./app");
 
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      Promise.all([s(), r()]).then(resolve);
-    }, 10_000);
+const PORT = 3000;
+
+async function main() {
+  serve({
+    port: PORT,
+    fetch: app.fetch,
+  }, (info) => {
+    console.info(info);
+    console.info(`server is listening on http://${info.address}:${info.port}`);
   });
 }
 
